@@ -1,0 +1,16 @@
+app:
+  name: 'postgres_to_kafka_loader'
+  version: '1.0.0'
+
+kafka:
+  host: 'localhost'
+  port: '0000'
+  topic: 'profiles'
+
+postgres:
+  host: 'localhost'
+  port: '5432'
+  user: 'postgres'
+  password: 'xxxxxxx'
+  dbname: 'postgres'
+  sslmode: 'disable'
