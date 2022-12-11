@@ -8,7 +8,7 @@ import (
 	"ptok/pkg/postgres"
 )
 
-func Run(cfg *config.Config) {
+func Run(cfg *config.Config, version *string) {
 
 	pg, err := postgres.New(&cfg.Postgres)
 	if err != nil {
@@ -17,11 +17,20 @@ func Run(cfg *config.Config) {
 	defer pg.Close()
 
 	kfk := kfk.New(cfg.Kafka)
-
 	profileUCase := usecase.New(*usecase.NewKFK(kfk), *usecase.NewPG(pg))
 
-	if err := profileUCase.TransportData(); err != nil {
-		log.Println(err)
+	switch *version {
+	case "1":
+		if err := profileUCase.TransportData(); err != nil {
+			log.Println(err)
+		}
+	case "2":
+		if err := profileUCase.TransportDataV2(); err != nil {
+			log.Println(err)
+		}
+	default:
+		log.Println("incorrect version")
+		return
 	}
 
 }

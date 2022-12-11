@@ -1,5 +1,7 @@
 package usecase
 
+import "ptok/internal/entity"
+
 type PrflUseCase struct {
 	ProfileKafka
 	ProfilePostgres
@@ -22,5 +24,19 @@ func (p *PrflUseCase) TransportData() error {
 	for _, val := range datas {
 		p.ProfileKafka.Write(val)
 	}
+	return nil
+}
+
+func (p *PrflUseCase) TransportDataV2() error {
+
+	prflChan := make(chan entity.Profile)
+	defer close(prflChan)
+
+	if err := p.ProfilePostgres.GetProfilesV2(prflChan); err != nil {
+		return err
+	}
+
+	go p.ProfileKafka.WriteV2(prflChan)
+
 	return nil
 }

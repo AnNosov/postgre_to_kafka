@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/signal"
@@ -13,6 +14,8 @@ import (
 )
 
 func main() {
+
+	var version = flag.String("version", "1", "loader version") // 1 or 2
 
 	cfg, err := config.NewConfig()
 	if err != nil {
@@ -30,7 +33,7 @@ func main() {
 
 	cronHandler.AddFunc("*/2 * * * *", func() { // every 2 minutes
 		log.Println("cron start running...")
-		app.Run(cfg)
+		app.Run(cfg, version)
 		log.Println("cron stop running...")
 	})
 
