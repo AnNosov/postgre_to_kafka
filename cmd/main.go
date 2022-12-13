@@ -13,9 +13,16 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
+var version *string
+
+func init() {
+	version = flag.String("version", "1", "loader version") // 1 or 2
+}
+
 func main() {
 
-	var version = flag.String("version", "1", "loader version") // 1 or 2
+	flag.Parse()
+	log.Println("starting...")
 
 	cfg, err := config.NewConfig()
 	if err != nil {
@@ -32,9 +39,7 @@ func main() {
 	defer cronHandler.Stop()
 
 	cronHandler.AddFunc("*/2 * * * *", func() { // every 2 minutes
-		log.Println("cron start running...")
 		app.Run(cfg, version)
-		log.Println("cron stop running...")
 	})
 
 	go cronHandler.Start()
