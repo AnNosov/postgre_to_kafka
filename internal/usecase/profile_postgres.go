@@ -44,7 +44,7 @@ func (p *ProfilePostgres) GetProfiles() ([]entity.Profile, error) {
 	return profiles, nil
 }
 
-func (p *ProfilePostgres) GetProfilesV2(chan entity.Profile) error {
+func (p *ProfilePostgres) GetProfilesV2(profileChan chan entity.Profile) error {
 
 	rows, err := p.Postgres.DB.Query("SELECT ID, NAME, AGE FROM TEST.PROFILES")
 	if err != nil {
@@ -52,7 +52,6 @@ func (p *ProfilePostgres) GetProfilesV2(chan entity.Profile) error {
 	}
 
 	defer rows.Close()
-	profileChan := make(chan entity.Profile)
 
 	for rows.Next() {
 		prfl := entity.Profile{}

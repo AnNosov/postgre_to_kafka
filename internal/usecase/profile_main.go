@@ -36,7 +36,7 @@ func (p *PrflUseCase) TransportDataV2() error {
 		return err
 	}
 
-	go p.ProfileKafka.WriteV2(prflChan)
+	p.ProfileKafka.WriteV2(prflChan)
 
 	return nil
 }
