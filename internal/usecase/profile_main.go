@@ -29,7 +29,7 @@ func (p *PrflUseCase) TransportData() error {
 
 func (p *PrflUseCase) TransportDataV2() error {
 
-	prflChan := make(chan entity.Profile)
+	prflChan := make(chan entity.Profile, 10)
 
 	if err := p.ProfilePostgres.GetProfilesV2(prflChan); err != nil {
 		return err

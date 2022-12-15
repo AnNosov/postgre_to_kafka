@@ -52,20 +52,20 @@ func (p *ProfilePostgres) GetProfilesV2(profileChan chan entity.Profile) error {
 	}
 
 	defer rows.Close()
-	go func() {
-		for rows.Next() {
-			prfl := entity.Profile{}
+	//go func() {
+	for rows.Next() {
+		prfl := entity.Profile{}
 
-			err := rows.Scan(&prfl.Id, &prfl.Name, &prfl.Age)
-			if err != nil {
-				log.Println("GetProfiles from Postgres: ", err)
-				continue
-			}
-
-			profileChan <- prfl
-
+		err := rows.Scan(&prfl.Id, &prfl.Name, &prfl.Age)
+		if err != nil {
+			log.Println("GetProfiles from Postgres: ", err)
+			continue
 		}
-	}()
+
+		profileChan <- prfl
+
+	}
+	//}()
 	defer close(profileChan) // приходится искать где закрывается канал, но так работает
 
 	return nil
