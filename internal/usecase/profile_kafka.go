@@ -31,14 +31,14 @@ func (w ProfileKafka) Write(profile entity.Profile) {
 }
 
 func (w ProfileKafka) WriteV2(profileChan chan entity.Profile) {
-	profile := <-profileChan
-	msg, err := json.Marshal(profile)
-	if err != nil {
-		log.Println("kafka writer: ", err)
+	for profile := range profileChan {
+		msg, err := json.Marshal(profile)
+		if err != nil {
+			log.Println("kafka writer: ", err)
+		}
+		w.WriteMessages(context.Background(), kafka.Message{
+			Key:   []byte(strconv.Itoa(profile.Id)),
+			Value: []byte(msg),
+		})
 	}
-	w.WriteMessages(context.Background(), kafka.Message{
-		Key:   []byte(strconv.Itoa(profile.Id)),
-		Value: []byte(msg),
-	})
-
 }

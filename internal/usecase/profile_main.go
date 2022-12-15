@@ -30,13 +30,12 @@ func (p *PrflUseCase) TransportData() error {
 func (p *PrflUseCase) TransportDataV2() error {
 
 	prflChan := make(chan entity.Profile)
-	defer close(prflChan)
 
 	if err := p.ProfilePostgres.GetProfilesV2(prflChan); err != nil {
 		return err
 	}
 
-	p.ProfileKafka.WriteV2(prflChan)
+	go p.ProfileKafka.WriteV2(prflChan)
 
 	return nil
 }
