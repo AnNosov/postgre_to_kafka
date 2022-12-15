@@ -4,13 +4,13 @@ app:
 
 kafka:
   host: 'localhost'
-  port: '0000'
+  port: '9092'
   topic: 'profiles'
 
 postgres:
-  host: 'localhost'
+  host: '172.17.0.2'
   port: '5432'
   user: 'postgres'
-  password: 'xxxxxxx'
+  password: 'postgres'
   dbname: 'postgres'
   sslmode: 'disable'
