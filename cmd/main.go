@@ -24,6 +24,16 @@ func main() {
 	flag.Parse()
 	log.Println("starting...")
 
+	func(version *string) {
+		switch *version {
+		case "1", "2":
+			log.Println("currect version: ", *version)
+		default:
+			log.Println("unknown version ", *version)
+		}
+
+	}(version)
+
 	cfg, err := config.NewConfig()
 	if err != nil {
 		log.Fatalf("Config error: %s", err)

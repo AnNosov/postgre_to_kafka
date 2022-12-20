@@ -2,7 +2,6 @@ package app
 
 import (
 	"log"
-	"os"
 	"ptok/config"
 	"ptok/internal/usecase"
 	"ptok/pkg/kfk"
@@ -31,9 +30,6 @@ func Run(cfg *config.Config, version *string) {
 		if err := profileUCase.TransportDataV2(); err != nil {
 			log.Println(err)
 		}
-	default:
-		log.Println("incorrect version")
-		os.Exit(1)
 	}
 
 }
